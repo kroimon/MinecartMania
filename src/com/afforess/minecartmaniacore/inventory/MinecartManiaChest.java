@@ -3,22 +3,18 @@ package com.afforess.minecartmaniacore.inventory;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.yi.acru.bukkit.Lockette.Lockette;
 
-import com.afforess.minecartmaniacore.MinecartManiaCore;
 import com.afforess.minecartmaniacore.signs.ForceUnlockChestAction;
 import com.afforess.minecartmaniacore.signs.Sign;
 import com.afforess.minecartmaniacore.utils.SignUtils;
 import com.afforess.minecartmaniacore.world.Item;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
-import com.griefcraft.lwc.LWCPlugin;
 
 public class MinecartManiaChest extends MinecartManiaSingleContainer implements MinecartManiaInventory{
 
@@ -128,17 +124,6 @@ public class MinecartManiaChest extends MinecartManiaSingleContainer implements 
 	 }
 	 
 	 public String getOwner() {
-		 if (MinecartManiaCore.isLocketteEnabled()) {
-			if (Lockette.isProtected(getLocation().getBlock())) {
-				return Lockette.getProtectedOwner(getLocation().getBlock());
-			}
-		 }
-		 if (MinecartManiaCore.isLWCEnabled()){
-			 LWCPlugin lock = (LWCPlugin )Bukkit.getServer().getPluginManager().getPlugin("LWC");
-			 if (lock.getLWC().findProtection(getLocation().getBlock()) != null) {
-				 return lock.getLWC().findProtection(getLocation().getBlock()).getOwner();
-			 }
-		 }
 		return null;
 	 }
 	 
@@ -155,26 +140,6 @@ public class MinecartManiaChest extends MinecartManiaSingleContainer implements 
 	 public boolean canAccess(String player){
 		 if (isIgnoreProtection() && player == null) {
 			return true;
-		 }
-		 if (MinecartManiaCore.isLocketteEnabled()) {
-			if (Lockette.isProtected(getLocation().getBlock())) {
-				if (player != null) {
-					return Lockette.getProtectedOwner(getLocation().getBlock()).equals(player);
-				}
-				return false;
-			}
-		 }
-		 if (MinecartManiaCore.isLWCEnabled()){
-			 LWCPlugin  lock = (LWCPlugin )Bukkit.getServer().getPluginManager().getPlugin("LWC");
-			 if (lock.getLWC().findProtection(getLocation().getBlock()) != null) {
-				 if (player != null) {
-					 Player ply = Bukkit.getServer().getPlayer(player);
-					 if (ply != null) {
-						 return lock.getLWC().canAccessProtection(ply, getLocation().getBlock());
-					 }
-				 }
-				return false;
-			 }
 		 }
 		 return true;
 	 }

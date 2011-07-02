@@ -1,13 +1,7 @@
 package com.afforess.minecartmaniacore.event;
-import org.akrieger.Nethrar.NethrarMinecartTeleportEvent;
 import org.bukkit.event.CustomEventListener;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
-
-import com.afforess.minecartmaniacore.MinecartManiaCore;
-import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
-import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
-import com.wormhole_xtreme.wormhole.event.StargateMinecartTeleportEvent;
 
 
 public class MinecartManiaListener extends CustomEventListener implements Listener{
@@ -200,32 +194,6 @@ public class MinecartManiaListener extends CustomEventListener implements Listen
 	 * @param event
 	 */
 	public void onCustomEvent(Event event) {
-		//Special case
-		if (MinecartManiaCore.isWormholeXTremeEnabled()) {
-			try {
-				if (event instanceof StargateMinecartTeleportEvent) {
-					StargateMinecartTeleportEvent e = (StargateMinecartTeleportEvent)event;
-					MinecartManiaMinecart oldMinecart = MinecartManiaWorld.getMinecartManiaMinecart(e.getOldMinecart());
-					oldMinecart.copy(e.getNewMinecart());
-					oldMinecart.kill(false);
-					return;
-				}
-			}
-			catch (Exception e) {}
-		}
-		if (MinecartManiaCore.isNethrarEnabled()) {
-			try {
-				if (event instanceof NethrarMinecartTeleportEvent) {
-					NethrarMinecartTeleportEvent e = (NethrarMinecartTeleportEvent)event;
-					MinecartManiaMinecart oldMinecart = MinecartManiaWorld.getMinecartManiaMinecart(e.getOldCart());
-					oldMinecart.copy(e.getNewCart());
-					oldMinecart.kill(false);
-					return;
-				}
-			}
-			catch (Exception e) {}
-		}
-		
 		if (event instanceof MinecartActionEvent) {
 			onMinecartActionEvent((MinecartActionEvent)event);
 		}
